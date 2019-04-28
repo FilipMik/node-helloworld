@@ -4,6 +4,14 @@ const session = require('express-session');
 const passport = require('passport');
 const WebAppStrategy = require("ibmcloud-appid").WebAppStrategy;
 const CALLBACK_URL = "/ibm/cloud/appid/callback";
+let loginRedirectUri = "";
+
+const env = process.env.NODE_ENV || 'dev';
+if(env === 'dev') {
+  loginRedirectUri = `http://localhost:8080/${CALLBACK_URL}`;
+} else {
+  loginRedirectUri = `http://node-weather-report.eu-gb.mybluemix.net/${CALLBACK_URL}`;
+}
 
 app = express();
 

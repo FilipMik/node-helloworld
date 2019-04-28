@@ -43,6 +43,11 @@ app.get('/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME), function(
   res.redirect('/')
 });
 
+app.get("/logout", function (req, res) {
+  WebAppStrategy.logout(req);
+  res.redirect("/");
+});
+
 app.get('/', function (req, res) {
   res.render("home", {
     user: req.user

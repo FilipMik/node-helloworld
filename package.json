@@ -1,6 +1,6 @@
 {
-  "name": "bluemix-web-node",
-  "version": "0.0.1",
+  "name": "node-helloworld",
+  "version": "0.0.0",
   "dependencies": {
     "cf-deployment-tracker-client": "*",
     "commander": "^2.6.0",

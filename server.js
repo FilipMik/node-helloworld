@@ -1,4 +1,5 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const session = require('express-session');
 const passport = require('passport');
 const WebAppStrategy = require("ibmcloud-appid").WebAppStrategy;
@@ -33,16 +34,21 @@ passport.deserializeUser(function(obj, cb) {
 
 var port = process.env.PORT || 8080;
 
-app.get(CALLBACK_URL, passport.authenticate(WebAppStrategy.STRATEGY_NAME));
-app.get('/protected', passport.authenticate(WebAppStrategy.STRATEGY_NAME), function(req, res) {res.json(req.user); });
-app.use(express.static(__dirname + '/public'));
 
-app.get("/sayHello", function (request, response) {
-  var user_name = request.query.user_name;
-  response.end("Hello " + user_name + "!");
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+app.get(CALLBACK_URL, passport.authenticate(WebAppStrategy.STRATEGY_NAME));
+app.get('/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME), function(req, res) {
+  res.redirect('/')
+});
+
+app.get('/', function (req, res) {
+  res.render("home", {
+    user: req.user
+  });
 });
 
 app.listen(port);
-console.log("Listening on port ", port);
 
 require("cf-deployment-tracker-client").track();

@@ -5,10 +5,11 @@
     "cf-deployment-tracker-client": "*",
     "commander": "^2.6.0",
     "express": "^4.14.1",
+    "express-handlebars": "^3.0.2",
+    "express-session": "^1.16.1",
     "http-post": "^0.1.1",
     "http-proxy": "^1.8.1",
     "ibmcloud-appid": "^6.0.0",
-    "express-session": "^1.16.1",
     "passport": "^0.4.0"
   },
   "main": "server.js",

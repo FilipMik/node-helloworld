@@ -8,9 +8,9 @@ let loginRedirectUri = "";
 
 const env = process.env.NODE_ENV || 'dev';
 if(env === 'dev') {
-  loginRedirectUri = `http://localhost:8080/${CALLBACK_URL}`;
+  loginRedirectUri = `http://localhost:8080${CALLBACK_URL}`;
 } else {
-  loginRedirectUri = `http://node-weather-report.eu-gb.mybluemix.net/${CALLBACK_URL}`;
+  loginRedirectUri = `http://node-weather-report.eu-gb.mybluemix.net${CALLBACK_URL}`;
 }
 
 app = express();

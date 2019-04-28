@@ -29,7 +29,7 @@ passport.use(new WebAppStrategy({
   clientId: "ee18bdd1-ca39-4df9-88f0-f21734ba4a20",
   secret: "OTJlNDgxNmUtODAwOS00OWQzLTljZGUtMzQzOWQ5ZDg1YmNl",
   oauthServerUrl: "https://eu-gb.appid.cloud.ibm.com/oauth/v4/7db0a1ca-4709-4ad6-9f95-f01320c7d436",
-  redirectUri: "http://localhost:8080" + CALLBACK_URL
+  redirectUri: loginRedirectUri
 }));
 
 passport.serializeUser(function(user, cb) {

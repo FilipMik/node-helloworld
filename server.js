@@ -3,6 +3,8 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const passport = require('passport');
 const WebAppStrategy = require("ibmcloud-appid").WebAppStrategy;
+const weatherApi = new (require('./services/weather'))('https://3b6bc957-59e7-4fc2-bc13-b4c999737feb:RsxzpoB1Di@twcservice.eu-gb.mybluemix.net');
+const userRepository = new (require('./services/storage'))('https://fcecbc9c-4de4-4711-8614-953660d677c7-bluemix.cloudantnosqldb.appdomain.cloud');
 const CALLBACK_URL = "/ibm/cloud/appid/callback";
 let loginRedirectUri = "";
 
@@ -46,9 +48,12 @@ var port = process.env.PORT || 8080;
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+app.use(express.urlencoded());
+
 app.get(CALLBACK_URL, passport.authenticate(WebAppStrategy.STRATEGY_NAME));
-app.get('/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME), function(req, res) {
-  res.redirect('/')
+app.get('/login', passport.authenticate(WebAppStrategy.STRATEGY_NAME), async function (req, res) {
+  await userRepository.createUser(req.user.email);
+  res.redirect('/');
 });
 
 app.get("/logout", function (req, res) {
@@ -56,9 +61,30 @@ app.get("/logout", function (req, res) {
   res.redirect("/");
 });
 
-app.get('/', function (req, res) {
+app.post("/city", async function (req, res) {
+  let city = req.body.city;
+  let foundCity = await weatherApi.findCity(city);
+  if(foundCity) {
+    let currentUser = await userRepository.getCurrentUser(req.user.email);
+    currentUser.cities.push(foundCity);
+    await userRepository.updateCurrentUser(currentUser);
+  }
+  res.redirect("/");
+});
+
+app.get('/', async function (req, res) {
+  let cities = [];
+  if (req.user) {
+    let currentUser = await userRepository.getCurrentUser(req.user.email);
+    cities = currentUser.cities;
+    for (var city of cities) {
+      city._temperature = await weatherApi.getTemperatureForCity(city);
+    }
+  }
+
   res.render("home", {
-    user: req.user
+    user: req.user,
+    cities: cities
   });
 });
 

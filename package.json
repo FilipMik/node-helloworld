@@ -2,6 +2,8 @@
   "name": "node-helloworld",
   "version": "0.0.0",
   "dependencies": {
+    "@cloudant/cloudant": "^4.0.0",
+    "axios": "^0.18.0",
     "cf-deployment-tracker-client": "*",
     "commander": "^2.6.0",
     "express": "^4.14.1",

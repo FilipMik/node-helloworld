@@ -1,5 +1,26 @@
-{{#if user}}
-    Hello {{user.name}} <a href="logout">Logout</a>
-{{else}}
-    <a href="login">Login</a>
-{{/if}}
+<div class="row">
+    <form method="post" action="/city">
+        <label for="cityInput">City: </label>
+        <input id="cityInput" name="city" type="text"/>
+        <button class="btn btn-default">Add new city</button>
+    </form>
+
+    {{#if user}}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>City</th>
+                <th>Temperature</th>
+            </tr>
+            </thead>
+            <tbody>
+                {{#each cities}}
+                    <tr>
+                        <td>{{_displayName}} </td>
+                        <td>{{_temperature}} °C </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{/if}}
+</div>

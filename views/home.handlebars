@@ -1,26 +1,25 @@
 <div class="row">
     <form method="post" action="/city">
-        <label for="cityInput">City: </label>
-        <input id="cityInput" name="city" type="text"/>
-        <button class="btn btn-default">Add new city</button>
+        <div class="col s9 input-field">
+            <input id="cityInput" name="city" type="text"/>
+            <label for="cityInput">City: </label>
+        </div>
+        <div class="col s3">
+            <button class="btn btn-default">Add new city</button>
+        </div>
     </form>
-
-    {{#if user}}
-        <table class="table">
-            <thead>
-            <tr>
-                <th>City</th>
-                <th>Temperature</th>
-            </tr>
-            </thead>
-            <tbody>
-                {{#each cities}}
-                    <tr>
-                        <td>{{_displayName}} </td>
-                        <td>{{_temperature}} °C </td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    {{/if}}
 </div>
+{{#if user}}
+    <div class="row">
+            {{#each cities}}
+                <div class="col m3 s12">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">{{_displayName}}</span>
+                            <p>{{_temperature}} Celsius degree</p>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+    </div>
+{{/if}}

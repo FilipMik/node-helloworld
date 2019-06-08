@@ -83,6 +83,21 @@ app.post("/city/delete", async function (req, res) {
   res.redirect("/");
 });
 
+app.get('/detail/:name', async function (req, res) {
+  let name = req.params.name;
+  let user = await userRepository.getCurrentUser(req.user.email);
+  let city = user.cities.find(function (c) {
+    return c._displayName === name;
+  });
+
+  let forecast = await weatherApi.getForecastForCity(city);
+  res.render("detail", {
+    forecast: forecast,
+    city: city,
+    user: req.user
+  })
+});
+
 app.get('/', async function (req, res) {
   let cities = [];
   if (req.user) {

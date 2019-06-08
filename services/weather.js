@@ -19,6 +19,13 @@ class WeatherApi {
                 return t.data.observation.temp;
             })
     }
+
+    getForecastForCity(city) {
+        return axios.get(`${this.url}/api/weather/v1/geocode/${city._latitude}/${city._longitude}/forecast/daily/7day.json?language=cs-CZ`)
+            .then(t => {
+                return t.data.forecasts;
+            })
+    }
 }
 
 class City {

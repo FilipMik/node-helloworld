@@ -72,6 +72,17 @@ app.post("/city", async function (req, res) {
   res.redirect("/");
 });
 
+app.post("/city/delete", async function (req, res) {
+  var currentUser = await userRepository.getCurrentUser(req.user.email);
+  for (let i = 0; i < currentUser.cities.length; i++) {
+    if (currentUser.cities[i]._displayName === req.body.city) {
+      currentUser.cities.splice(i, 1);
+    }
+  }
+  await userRepository.updateCurrentUser(currentUser);
+  res.redirect("/");
+});
+
 app.get('/', async function (req, res) {
   let cities = [];
   if (req.user) {

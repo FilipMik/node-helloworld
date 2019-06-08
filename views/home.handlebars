@@ -17,6 +17,10 @@
                         <div class="card-content white-text">
                             <span class="card-title">{{_displayName}}</span>
                             <p>{{_temperature}} Celsius degree</p>
+                            <form method="post" action="/city/delete">
+                                <input name="city" type="hidden" value="{{_displayName}}"/>
+                                <input class="btn btn-danger" type="submit" value="Delete"/>
+                            </form>
                         </div>
                     </div>
                 </div>
